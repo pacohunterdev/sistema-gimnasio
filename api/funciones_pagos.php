@@ -47,7 +47,7 @@ function obtenerTotalesPorUsuario($filtros){
     $sentencia  = "SELECT SUM(pagos.monto) AS total, usuarios.usuario AS nombre FROM pagos
     INNER JOIN usuarios ON usuarios.id = pagos.idUsuario
     WHERE DATE(pagos.fecha) >= ? AND DATE(pagos.fecha) <= ? 
-    GROUP BY pagos.idUsuario
+    GROUP BY pagos.idUsuario, usuarios.usuario
     ORDER BY total DESC";
     $parametros = [$fechaInicio, $fechaFin];
     return selectPrepare($sentencia, $parametros);
@@ -60,7 +60,7 @@ function obtenerTotalesPorMiembro($filtros){
     $sentencia  = "SELECT SUM(pagos.monto) AS total, miembros.nombre, miembros.matricula, miembros.imagen FROM pagos
     INNER JOIN miembros ON miembros.matricula = pagos.matricula
     WHERE DATE(pagos.fecha) >= ? AND DATE(pagos.fecha) <= ? 
-    GROUP BY pagos.matricula
+    GROUP BY pagos.matricula, miembros.nombre, miembros.matricula, miembros.imagen
     ORDER BY total DESC
     LIMIT 5";
     $parametros = [$fechaInicio, $fechaFin];

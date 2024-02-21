@@ -47,9 +47,10 @@ function obtenerPagosMes(){
 
 function obtenerVisitasHora(){
     $sentencia = "SELECT CONCAT(DATE_FORMAT(fecha,'%H'), 'hrs') AS hora, 
-    COUNT(*) AS numeroVisitas FROM visitas 
-    GROUP BY DATE_FORMAT(fecha,'%H') 
-    ORDER BY hora ASC
+    COUNT(*) AS numeroVisitas 
+FROM visitas 
+GROUP BY CONCAT(DATE_FORMAT(fecha,'%H'), 'hrs') 
+ORDER BY hora ASC
     ";
     return selectQuery($sentencia);
 }
@@ -57,38 +58,37 @@ function obtenerVisitasHora(){
 function obtenerVisitasDiasSemana() {
     $sentencia = "SELECT DAYNAME(fecha) AS dia, DAYOFWEEK(fecha) AS numeroDia, COUNT(*) AS numeroVisitas FROM visitas
      WHERE YEARWEEK(fecha)=YEARWEEK(CURDATE())
-     GROUP BY dia 
-     ORDER BY fecha ASC";
+     GROUP BY DAYNAME(fecha), DAYOFWEEK(fecha)
+     ORDER BY numeroDia ASC";
     return selectQuery($sentencia);
-
 }
 
 function obtenerVisitasPorDiaMes(){
     $sentencia = "SELECT DAY(fecha) AS dia, COUNT(*) AS numeroVisitas
-	FROM visitas
-	WHERE MONTH(fecha) = MONTH(CURRENT_DATE())
+    FROM visitas
+    WHERE MONTH(fecha) = MONTH(CURRENT_DATE())
     AND YEAR(fecha) = YEAR(CURRENT_DATE())
-	GROUP BY dia
-	ORDER BY dia ASC";
+    GROUP BY DAY(fecha)
+    ORDER BY dia ASC";
     return selectQuery($sentencia);
 }
 
 function obtenerPagosDiasSemana() {
     $sentencia = "SELECT DAYNAME(fecha) AS dia, DAYOFWEEK(fecha) AS numeroDia, SUM(monto) AS total FROM pagos
      WHERE YEARWEEK(fecha)=YEARWEEK(CURDATE())
-     GROUP BY dia 
-     ORDER BY fecha ASC";
+     GROUP BY DAYNAME(fecha), DAYOFWEEK(fecha)
+     ORDER BY numeroDia ASC";
     return selectQuery($sentencia);
 
 }
 
 function obtenerPagosPorDiaMes(){
     $sentencia = "SELECT DAY(fecha) AS dia, SUM(monto) AS total
-	FROM pagos
-	WHERE MONTH(fecha) = MONTH(CURRENT_DATE())
+    FROM pagos
+    WHERE MONTH(fecha) = MONTH(CURRENT_DATE())
     AND YEAR(fecha) = YEAR(CURRENT_DATE())
-	GROUP BY dia
-	ORDER BY dia ASC";
+    GROUP BY DAY(fecha)
+    ORDER BY dia ASC";
     return selectQuery($sentencia);
 }
 
