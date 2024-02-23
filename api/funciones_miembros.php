@@ -15,6 +15,10 @@ function registrarMiembro($miembro){
     $miembro->telefonoContacto, $imagen, date("Y-m-d H:i:s")
 ];
     $resultado = insertar($sentencia, $parametros);
+
+    /* Función para llamar la API que genera el QR y lo envía por Whatsapp */
+    enviarQR($miembro->telefono, $matricula, $miembro->nombre);
+
     if($resultado) return $matricula;
 }
 
@@ -97,4 +101,24 @@ function editarMiembro($miembro) {
 function obtenerImagenPorMatricula($matricula){
     $sentencia  = "SELECT imagen FROM miembros WHERE matricula = ?";
     return selectPrepare($sentencia, [$matricula])[0];
+}
+
+function enviarQR($telefono, $matricula, $nombre){
+    $config = json_decode(file_get_contents('config.json'), true);
+    $url = $config['qr_generator_url'];
+    $gym_name = $config['gym_name'];
+    $caption = "Hola ".$nombre." ¡Bienvenido/a a ".$gym_name."! Tu matrícula es: ".$matricula. ". Puedes utilizar este código QR para ingresar al gimnasio. ¡Nos vemos pronto!";
+    $telefono = "+52".$telefono;
+    $data = array('to' => $telefono, 'qr_text' => $matricula, 'caption' => $caption);
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data)
+        )
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+
+    return $result;
 }
