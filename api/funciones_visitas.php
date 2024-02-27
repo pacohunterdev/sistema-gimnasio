@@ -81,3 +81,27 @@ function registrarVisitaRegular($visita){
 
 }
 
+function buscarMiembrosQR($visita)
+{
+    try {
+        $sentencia = "SELECT * FROM miembros WHERE matricula = ?";
+        $parametros = [$visita->codigoQR];
+        $miembro = selectPrepare($sentencia, $parametros);
+    
+        return $miembro;
+    } catch (Exception $e) {
+        return $e;
+    }
+}
+
+/* function registrarVisitaQR($visita)
+{
+    try {
+        $sentencia = "INSERT INTO visitas (idMiembro, idUsuario, idMembresia, fecha) VALUES (?,?,?,?)";
+        $parametros = [$visita->idMiembro, $visita->idUsuario, $visita->idMembresia, date("Y-m-d H:i:s")];
+        return insertar($sentencia, $parametros);
+    } catch (Exception $e) {
+        return $e;
+    }
+} */
+

@@ -15,6 +15,7 @@ import Visitas from '../components/Visitas/Visitas'
 import ConfiguracionComponent from '../components/Configuracion/ConfiguracionComponent'
 import InicioComponent from '../components/InicioComponent'
 import MiPerfil from '../components/Usuarios/MiPerfil'
+import RegistrarVisitaQR from '../components/Visitas/RegistrarVisitaQR'
 Vue.use(Router)
 
 export default new Router({
@@ -73,6 +74,11 @@ export default new Router({
       path: '/registrar-visita',
       name: 'RegistrarVisita',
       component: RegistrarVisita
+    },
+    {
+      path: '/registrar-visita-qr',
+      name: 'RegistrarVisitaQR',
+      component: RegistrarVisitaQR
     },
     {
       path: '/visitas',

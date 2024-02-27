@@ -60,6 +60,7 @@ export default {
     items: [
       { title: "Inicio", icon: "mdi-view-dashboard", link: "/" },
       { title: "Registrar visita", icon: "mdi-home-account", link: "/registrar-visita" },
+      { title: "Registrar visita QR", icon: "mdi-qrcode", link: "/registrar-visita-qr"},
       { title: "Usuarios", icon: "mdi-account-box", link: "/usuarios" },
       { title: "Miembros", icon: "mdi-weight-lifter", link: "/miembros" },
       {
