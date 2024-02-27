@@ -29,6 +29,12 @@ switch($metodo){
             ]
         );
         break;
+    case "buscar_qr":
+        echo json_encode(buscarMiembrosQR($payload->visita));
+        break;
+    /* case "registrar_qr":
+        echo json_encode(registrarVisitaQR($payload->visita));
+        break; */
 
 }
 
